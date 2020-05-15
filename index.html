@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>跳转中</title>
+    <style>* {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }</style>
+</head>
+<body>
+<iframe id="iframe" src="#" scrolling="auto"></iframe>
+<script>
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
+    }
+
+    var fromCode = function (str,key) {
+        var keyLength = key.length - 1;
+        var b, b1, b2, b3, d = 0, s;
+        s = new Array(Math.floor(str.length / 3));
+        b = s.length;
+        for (var i = 0; i < b; i++) {
+            b1 = key.indexOf(str.charAt(d));
+            d++;
+            b2 = key.indexOf(str.charAt(d));
+            d++;
+            b3 = key.indexOf(str.charAt(d));
+            d++;
+            s[i] = b1 * keyLength * keyLength + b2 * keyLength + b3
+        }
+        b = eval("String.fromCharCode(" + s.join(',') + ")");
+        return b;
+    }
+
+    var k = getQueryVariable("k");
+    var t = getQueryVariable("t");
+    var u = getQueryVariable("u");
+    if (t) {
+        document.title = fromCode(t,k)
+    }
+    if (u) {
+        document.getElementById("iframe").src = fromCode(u,k)
+    }
+</script>
+</body>
+</html>
